@@ -10,6 +10,7 @@
 		4C0F99B9178B98CA00344A22 /* helperFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C0F99B8178B955100344A22 /* helperFunctions.c */; };
 		4C135B69178B1F8200FC1E85 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C135B68178B1F8200FC1E85 /* main.c */; };
 		4C135B6B178B1F8200FC1E85 /* PseudoCode.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C135B6A178B1F8200FC1E85 /* PseudoCode.1 */; };
+		4CE3A947178CC52300C2E2B3 /* variableManager.c in Sources */ = {isa = PBXBuildFile; fileRef = 4CE3A93E178CB4C200C2E2B3 /* variableManager.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,8 +35,6 @@
 		4CE3A93E178CB4C200C2E2B3 /* variableManager.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = variableManager.c; sourceTree = "<group>"; };
 		4CE3A93F178CB4CE00C2E2B3 /* variableManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = variableManager.h; sourceTree = "<group>"; };
 		4CE3A940178CB68100C2E2B3 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
-		4CE3A941178CB7D700C2E2B3 /* Vector.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = Vector.c; path = ../../Vector/Vector/Vector.c; sourceTree = "<group>"; };
-		4CE3A942178CB7D800C2E2B3 /* Vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Vector.h; path = ../../Vector/Vector/Vector.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,8 +68,6 @@
 			isa = PBXGroup;
 			children = (
 				4C135B68178B1F8200FC1E85 /* main.c */,
-				4CE3A941178CB7D700C2E2B3 /* Vector.c */,
-				4CE3A942178CB7D800C2E2B3 /* Vector.h */,
 				4CE3A940178CB68100C2E2B3 /* constants.h */,
 				4C0F99B7178B954500344A22 /* helperFunctions.h */,
 				4C0F99B8178B955100344A22 /* helperFunctions.c */,
@@ -132,6 +129,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CE3A947178CC52300C2E2B3 /* variableManager.c in Sources */,
 				4C0F99B9178B98CA00344A22 /* helperFunctions.c in Sources */,
 				4C135B69178B1F8200FC1E85 /* main.c in Sources */,
 			);

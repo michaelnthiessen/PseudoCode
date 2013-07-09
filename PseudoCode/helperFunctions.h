@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 int isStringInArray(char* string, char** array, int numElements);
 

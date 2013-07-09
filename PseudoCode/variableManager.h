@@ -12,9 +12,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
-
-
+void defineNewVariable(char *varName);
+void *returnVariable(char *varName);
 
 
 #endif

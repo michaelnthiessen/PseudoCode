@@ -11,10 +11,12 @@
 #include <stdlib.h>
 #include "helperFunctions.h"
 #include "constants.h"
+#include "variableManager.h"
 
 //------------------ Functions ----------------------
 void interpretProgramFile(char *programFilePath);
 void parseSingleOperandInstruction(char *token);
+void parseAssignmentInstruction(char *token);
 
 int main(int argc, const char * argv[])
 {
@@ -27,6 +29,8 @@ int main(int argc, const char * argv[])
 
 void interpretProgramFile(char *programFilePath)
 {
+    assert(programFilePath != NULL);
+    
     FILE *file;
     char line[LINE_MAX];
     char *token = "";
@@ -53,6 +57,10 @@ void interpretProgramFile(char *programFilePath)
             {
                 parseSingleOperandInstruction(token);
             }
+            else if (isStringInArray(token, (char **)ASSIGNMENT_INSTRUCTIONS, NUM_ASSIGNMENT_INSTRUCTIONS))
+            {
+                parseAssignmentInstruction(token);
+            }
             
             token = strtok(NULL, " ");
         }
@@ -61,6 +69,8 @@ void interpretProgramFile(char *programFilePath)
 
 void parseSingleOperandInstruction(char *token)
 {
+    assert(token != NULL);
+    
     char *operand = strtok(NULL, " ");
     int endChar = (int)strlen(operand) - 1;
     
@@ -73,13 +83,57 @@ void parseSingleOperandInstruction(char *token)
     // VAR - define a variable
     if (strcmp(token, SINGLE_OPERAND_INSTRUCTIONS[0]) == 0)
     {
-        printf("Defining a new variable '%s'\n", operand);
+        defineNewVariable(operand);
     }
     // PRINT - print the contents of a variable
     else if (strcmp(token, SINGLE_OPERAND_INSTRUCTIONS[1]) == 0)
     {
-        printf("Printing %s\n", operand);
+        int *var = (int *)returnVariable(operand);
+        
+        if (var != NULL)
+        {
+            printf("%i\n", *var);
+        }
     }
+}
+
+void parseAssignmentInstruction(char *token)
+{
+    assert(token != NULL);
+
+    int *var = NULL;
+    char *varName = strtok(NULL, " ");
+    char *assignmentOp = strtok(NULL, " ");
+    
+    // Get the operand and remove and carriage returns
+    char *operand = strtok(NULL, " ");
+    int endChar = (int)strlen(operand) - 1;
+    
+    if (operand[endChar] == '\n')
+    {
+        operand[endChar] = '\0';
+    }
+    
+    // Do some simple error checks
+    if (varName == NULL)
+    {
+        printf("ERR: Cannot assign a value to nothing.\n");
+        return;
+    }
+    else if (assignmentOp == NULL || assignmentOp[0] != '=')
+    {
+        printf("ERR: Incorrect assignment syntax. Assignment operator '=' required.\n");
+        return;
+    }
+    else if (operand == NULL)
+    {
+        printf("ERR: No value to assign to the variable.\n");
+        return;
+    }
+    
+    // Assignment
+    var = returnVariable(varName);
+    *var = (int)strtol(operand, NULL, 10);
 }
 
 

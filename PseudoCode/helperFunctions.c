@@ -11,6 +11,10 @@
 // Simple linear search
 int isStringInArray(char* string, char** array, int numElements)
 {
+    assert(string != NULL);
+    assert(array != NULL);
+    assert(numElements > 0);
+    
     for (int i = 0; i < numElements; i++)
     {
         if (strcmp(string, array[i]) == 0)
