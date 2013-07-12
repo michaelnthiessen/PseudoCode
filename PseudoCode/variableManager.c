@@ -21,7 +21,7 @@ int numVars = 0;
  
  NOTE: Only works with integers right now.
  */
-void defineNewVariable(char *varName)
+void variableDefineNewVariable(char *varName)
 {
     assert(varName != NULL);
     char *varName_Heap;
@@ -50,13 +50,13 @@ void defineNewVariable(char *varName)
 /*
  Returns a pointer to the variable name given
  */
-void *returnVariable(char *varName)
+void *variableReturnVariable(char *varName)
 {
     assert (varName != NULL);
     int found = 0;
     
     // Linear search (for now)
-    for (int i = 0; i < MAX_VARS || found; i++)
+    for (int i = 0; i < numVars || found; i++)
     {
         if (strcmp(varName, nameArray[i]) == 0)
         {

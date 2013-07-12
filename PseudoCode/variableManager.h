@@ -14,8 +14,8 @@
 #include <string.h>
 #include <assert.h>
 
-void defineNewVariable(char *varName);
-void *returnVariable(char *varName);
+void variableDefineNewVariable(char *varName);
+void *variableReturnVariable(char *varName);
 
 
 #endif

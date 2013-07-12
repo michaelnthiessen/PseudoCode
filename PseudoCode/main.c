@@ -84,12 +84,12 @@ void parseSingleOperandInstruction(char *token)
     // VAR - define a variable
     if (strcmp(token, SINGLE_OPERAND_INSTRUCTIONS[0]) == 0)
     {
-        defineNewVariable(operand);
+        variableDefineNewVariable(operand);
     }
     // PRINT - print the contents of a variable
     else if (strcmp(token, SINGLE_OPERAND_INSTRUCTIONS[1]) == 0)
     {
-        int *var = (int *)returnVariable(operand);
+        int *var = (int *)variableReturnVariable(operand);
         
         if (var != NULL)
         {
@@ -133,7 +133,7 @@ void parseAssignmentInstruction(char *token)
     }
     
     // Assignment
-    var = returnVariable(varName);
+    var = variableReturnVariable(varName);
     *var = evaluateExpression(operand);
 }
 

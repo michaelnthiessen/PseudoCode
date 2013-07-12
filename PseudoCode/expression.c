@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include "helperFunctions.h"
 #include "expression.h"
+#include "variableManager.h"
 
 const int NUM_OPERATORS = 4;
 const char *OPERATORS[NUM_OPERATORS] = {"+", "-", "/", "*"};
@@ -49,21 +50,27 @@ char *convertToPostfix(char *infix)
     // Converting to postfix rearranges and removes parentheses,
     // so it will always be of equal or shorter length
     char *postfix = malloc(sizeof(char) * lengthInfix);
-    char *token = strtok(infix, " ");
     
-    do
+    for (int i = 0; i < lengthInfix; i++)
     {
-        char c = token[0];
+        char c = infix[i];
         char *ch = malloc(sizeof(char));
-        ch = token;
+        *ch = c;
         
         // Check if it's an operand
         if (isdigit(c))
         {
-            strcat(postfix, ch);
-            lengthPostfix += strlen(ch);
+            postfix[lengthPostfix] = infix[i];
+            lengthPostfix++;
             
-            strcat(postfix, " ");
+            while (isdigit(infix[i + 1]))
+            {
+                postfix[lengthPostfix] = infix[i + 1];
+                lengthPostfix++;
+                i++;
+            }
+            
+            postfix[lengthPostfix] = ' ';
             lengthPostfix++;
         }
         else if (c == '(')
@@ -103,7 +110,54 @@ char *convertToPostfix(char *infix)
                 pushChar(c, stack);
             }
         }
-    } while ((token = strtok(NULL, " ")));
+        // Find the variable and replace it with it's numeric value
+        else if (islower(c))
+        {
+            char *varName = malloc(sizeof(char) * 50);
+            int varLength = 0;
+            int *var;
+            
+            varName[varLength] = infix[i];
+            varLength++;
+            
+            while (islower(infix[i + 1]) || isupper(infix[i + 1]))
+            {
+                varName[varLength] = infix[i + 1];
+                varLength++;
+                i++;
+            }
+            
+            varName[varLength] = '\0';
+            
+            // Search for the variable
+            var = variableReturnVariable(varName);
+            
+            if (var == NULL)
+            {
+                abort();
+            }
+            else
+            {
+                char *result;
+                if (*var != 0)
+                {
+                    result = malloc((ceil(log10(*var))+1)*sizeof(char));
+                    sprintf(result, "%d", *var);
+                }
+                else
+                {
+                    result = malloc(sizeof(char) * 2);
+                    result = "0";
+                }
+                
+                postfix = strcat(postfix, result);
+                lengthPostfix += strlen(result);
+                
+                postfix[lengthPostfix] = ' ';
+                lengthPostfix++;
+            }
+        }
+    }
     
     while (!stackIsEmpty(stack))
     {
@@ -124,6 +178,9 @@ char *convertToPostfix(char *infix)
  */
 int operatorDoesTakePrecedence(char op1, char op2)
 {
+    assert(op1 > 0);
+    assert(op2 > 0);
+    
     int result = 0;
     
     // * and / automatically take precedence over everything
