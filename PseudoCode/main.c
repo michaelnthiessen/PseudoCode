@@ -12,6 +12,7 @@
 #include "helperFunctions.h"
 #include "constants.h"
 #include "variableManager.h"
+#include "expression.h"
 
 //------------------ Functions ----------------------
 void interpretProgramFile(char *programFilePath);
@@ -106,7 +107,7 @@ void parseAssignmentInstruction(char *token)
     char *assignmentOp = strtok(NULL, " ");
     
     // Get the operand and remove and carriage returns
-    char *operand = strtok(NULL, " ");
+    char *operand = strtok(NULL, "");
     int endChar = (int)strlen(operand) - 1;
     
     if (operand[endChar] == '\n')
@@ -133,8 +134,10 @@ void parseAssignmentInstruction(char *token)
     
     // Assignment
     var = returnVariable(varName);
-    *var = (int)strtol(operand, NULL, 10);
+    *var = evaluateExpression(operand);
 }
+
+
 
 
 

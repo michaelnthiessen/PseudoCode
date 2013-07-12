@@ -26,6 +26,10 @@ int isStringInArray(char* string, char** array, int numElements)
     return 0;
 }
 
+double max(double one, double two)
+{
+    return one > two ? one : two;
+}
 
 
 
