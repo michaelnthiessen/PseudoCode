@@ -26,6 +26,22 @@ int isStringInArray(char* string, char** array, int numElements)
     return 0;
 }
 
+int isCharInArray(char c, char** array, int numElements)
+{
+    assert(array != NULL);
+    assert(numElements > 0);
+    
+    for (int i = 0; i < numElements; i++)
+    {
+        if (c == array[i][0])
+        {
+            return 1;
+        }
+    }
+    
+    return 0;
+}
+
 double max(double one, double two)
 {
     return one > two ? one : two;

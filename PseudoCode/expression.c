@@ -54,8 +54,6 @@ char *convertToPostfix(char *infix)
     for (int i = 0; i < lengthInfix; i++)
     {
         char c = infix[i];
-        char *ch = malloc(sizeof(char));
-        *ch = c;
         
         // Check if it's an operand
         if (isdigit(c))
@@ -91,7 +89,7 @@ char *convertToPostfix(char *infix)
             
             stackPopObject(stack);
         }
-        else if (isStringInArray(ch, (char **)OPERATORS, NUM_OPERATORS))
+        else if (isCharInArray(c, (char **)OPERATORS, NUM_OPERATORS))
         {
             if (stackIsEmpty(stack) || *(char *)stackReturnTopObject(stack) == '(')
             {
@@ -120,7 +118,7 @@ char *convertToPostfix(char *infix)
             varName[varLength] = infix[i];
             varLength++;
             
-            while (islower(infix[i + 1]) || isupper(infix[i + 1]))
+            while (!(isCharInArray(infix[i + 1], (char **)OPERATORS, NUM_OPERATORS) || infix[i+1] == '(' || infix[i+1] == ')' || infix[i+1] == ' '))
             {
                 varName[varLength] = infix[i + 1];
                 varLength++;

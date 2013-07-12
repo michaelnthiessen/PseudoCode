@@ -14,6 +14,7 @@
 #include <assert.h>
 
 int isStringInArray(char* string, char** array, int numElements);
+int isCharInArray(char c, char **array, int numElements);
 double max(double one, double two);
 
 #endif
