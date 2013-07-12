@@ -12,7 +12,8 @@
 #include "../Stack.h"
 #include <assert.h>
 
-int evaluateExpression(char* expression);
-
+int evaluateIntExpression(char *expression);
+int evaluateBoolExpression(char *expression);
+int evaluateComparison(char *expression);
 
 #endif

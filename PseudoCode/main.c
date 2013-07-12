@@ -16,15 +16,17 @@
 
 //------------------ Functions ----------------------
 void interpretProgramFile(char *programFilePath);
+
 void parseSingleOperandInstruction(char *token);
 void parseAssignmentInstruction(char *token);
+void parseControlFlow(char *token, FILE *file);
 
 int main(int argc, const char * argv[])
 {
     // Open up a program file 
     interpretProgramFile((char *)FILE_PATH);
 
-    printf("\n\nProcessing Completed.\n");
+    printf("\nEnd of program.\n");
     return 0;
 }
 
@@ -62,8 +64,38 @@ void interpretProgramFile(char *programFilePath)
             {
                 parseAssignmentInstruction(token);
             }
+            else if (isStringInArray(token, (char **)CONTROL_FLOW, NUM_CONTROL_FLOW))
+            {
+                parseControlFlow(token, file);
+            }
             
             token = strtok(NULL, " ");
+        }
+    }
+}
+
+void parseControlFlow(char *token, FILE *file)
+{
+    assert(token != NULL);
+    assert(file != NULL);
+    
+    char *ch = malloc(sizeof(char) * strlen(token));
+    char line[LINE_MAX];
+    ch = token;
+    
+    // IF...THEN
+    if (strcmp(ch, CONTROL_FLOW[0]) == 0)
+    {
+        // If the expression is false, we need to skip past
+        // the end of the IF block
+        token = strtok(NULL, "");
+        if (!evaluateComparison(token))
+        {
+            fgets(line, LINE_MAX, file);
+            while (strcmp(line, "END\n") != 0 && strcmp(line, "END") != 0)
+            {
+                fgets(line, LINE_MAX, file);
+            }
         }
     }
 }
@@ -134,7 +166,7 @@ void parseAssignmentInstruction(char *token)
     
     // Assignment
     var = variableReturnVariable(varName);
-    *var = evaluateExpression(operand);
+    *var = evaluateIntExpression(operand);
 }
 
 
