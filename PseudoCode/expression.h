@@ -10,7 +10,6 @@
 #define PseudoCode_expression_h
 
 #include "../Stack.h"
-#include <assert.h>
 
 int evaluateIntExpression(char *expression);
 int evaluateBoolExpression(char *expression);

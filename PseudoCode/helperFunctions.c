@@ -8,6 +8,8 @@
 
 #include "helperFunctions.h"
 
+
+
 // Simple linear search
 int isStringInArray(char* string, char** array, int numElements)
 {
@@ -40,6 +42,35 @@ int isCharInArray(char c, char** array, int numElements)
     }
     
     return 0;
+}
+
+/*
+ Create a new string with the whitespace trimmed from it
+ and then copy it back into the original location
+ */
+void trimwhitespace(char *str)
+{
+    char *newStr = malloc(sizeof(char) * strlen(str));
+    int index = 0, begin = 0;
+    
+    // Leading whitespace
+    while (isCharInArray(str[begin], (char **)WHITESPACE, NUM_WHITESPACE))
+    {
+        begin++;
+    }
+    
+    // Load into the new string while the next character is not whitespace
+    while (!isCharInArray(str[begin], (char **)WHITESPACE, NUM_WHITESPACE))
+    {
+        newStr[index++] = str[begin++];
+    }
+    
+    newStr[index] = '\0';
+    
+    // Copy the new str into the old location
+    memcpy(str, newStr, strlen(newStr));
+    
+    return;
 }
 
 double max(double one, double two)

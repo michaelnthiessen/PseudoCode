@@ -10,11 +10,16 @@
 #define PseudoCode_helperFunctions_h
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <ctype.h>
+#include "constants.h"
 
 int isStringInArray(char* string, char** array, int numElements);
 int isCharInArray(char c, char **array, int numElements);
 double max(double one, double two);
+
+void trimwhitespace(char *str);
 
 #endif

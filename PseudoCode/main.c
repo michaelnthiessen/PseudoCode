@@ -10,9 +10,11 @@
 #include <string.h>
 #include <stdlib.h>
 #include "helperFunctions.h"
-#include "constants.h"
 #include "variableManager.h"
 #include "expression.h"
+#include "constants.h"
+
+
 
 //------------------ Functions ----------------------
 void interpretProgramFile(char *programFilePath);
@@ -79,9 +81,10 @@ void parseControlFlow(char *token, FILE *file)
     assert(token != NULL);
     assert(file != NULL);
     
+    // Setup memory
     char *ch = malloc(sizeof(char) * strlen(token));
-    char line[LINE_MAX];
-    ch = token;
+    char *line = malloc(sizeof(char) * LINE_MAX);
+    strcpy(ch, token);
     
     // IF...THEN
     if (strcmp(ch, CONTROL_FLOW[0]) == 0)
@@ -92,12 +95,19 @@ void parseControlFlow(char *token, FILE *file)
         if (!evaluateComparison(token))
         {
             fgets(line, LINE_MAX, file);
+            trimwhitespace(line);
+            
             while (strcmp(line, "END\n") != 0 && strcmp(line, "END") != 0)
             {
                 fgets(line, LINE_MAX, file);
+                trimwhitespace(line);
             }
         }
     }
+    
+    // Deallocate memory
+    free(ch);
+    free(line);
 }
 
 void parseSingleOperandInstruction(char *token)

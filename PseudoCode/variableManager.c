@@ -8,8 +8,6 @@
 
 #include "variableManager.h"
 
-const int MAX_VARS = 100;
-const int DEFAULT_VAL = 0;
 
 int varArray[MAX_VARS];
 char *nameArray[MAX_VARS];

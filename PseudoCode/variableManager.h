@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include "constants.h"
 
 void variableDefineNewVariable(char *varName);
 void *variableReturnVariable(char *varName);

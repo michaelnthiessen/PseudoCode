@@ -10,8 +10,8 @@
 		4C0F99B9178B98CA00344A22 /* helperFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C0F99B8178B955100344A22 /* helperFunctions.c */; };
 		4C135B69178B1F8200FC1E85 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C135B68178B1F8200FC1E85 /* main.c */; };
 		4C135B6B178B1F8200FC1E85 /* PseudoCode.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C135B6A178B1F8200FC1E85 /* PseudoCode.1 */; };
+		4C46A683179B246C00904A4B /* expression.c in Sources */ = {isa = PBXBuildFile; fileRef = 4CB777DB178CDD87001FDAF4 /* expression.c */; };
 		4CB777F6178CEEA0001FDAF4 /* Stack.c in Sources */ = {isa = PBXBuildFile; fileRef = 4CB777F4178CEAFD001FDAF4 /* Stack.c */; };
-		4CB777F7178CEEC1001FDAF4 /* expression.c in Sources */ = {isa = PBXBuildFile; fileRef = 4CB777DB178CDD87001FDAF4 /* expression.c */; };
 		4CE3A947178CC52300C2E2B3 /* variableManager.c in Sources */ = {isa = PBXBuildFile; fileRef = 4CE3A93E178CB4C200C2E2B3 /* variableManager.c */; };
 /* End PBXBuildFile section */
 
@@ -34,13 +34,13 @@
 		4C135B65178B1F8200FC1E85 /* PseudoCode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PseudoCode; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C135B68178B1F8200FC1E85 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		4C135B6A178B1F8200FC1E85 /* PseudoCode.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = PseudoCode.1; sourceTree = "<group>"; };
+		4C30457417A1844A0068B934 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		4CB777DA178CDD7E001FDAF4 /* expression.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = expression.h; sourceTree = "<group>"; };
 		4CB777DB178CDD87001FDAF4 /* expression.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = expression.c; sourceTree = "<group>"; };
 		4CB777F4178CEAFD001FDAF4 /* Stack.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Stack.c; sourceTree = "<group>"; };
 		4CB777F5178CEAFD001FDAF4 /* Stack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stack.h; sourceTree = "<group>"; };
 		4CE3A93E178CB4C200C2E2B3 /* variableManager.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = variableManager.c; sourceTree = "<group>"; };
 		4CE3A93F178CB4CE00C2E2B3 /* variableManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = variableManager.h; sourceTree = "<group>"; };
-		4CE3A940178CB68100C2E2B3 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,13 +76,13 @@
 			isa = PBXGroup;
 			children = (
 				4C135B68178B1F8200FC1E85 /* main.c */,
-				4CE3A940178CB68100C2E2B3 /* constants.h */,
 				4C0F99B7178B954500344A22 /* helperFunctions.h */,
 				4C0F99B8178B955100344A22 /* helperFunctions.c */,
 				4CE3A93F178CB4CE00C2E2B3 /* variableManager.h */,
 				4CE3A93E178CB4C200C2E2B3 /* variableManager.c */,
 				4CB777DA178CDD7E001FDAF4 /* expression.h */,
 				4CB777DB178CDD87001FDAF4 /* expression.c */,
+				4C30457417A1844A0068B934 /* constants.h */,
 				4C135B6A178B1F8200FC1E85 /* PseudoCode.1 */,
 			);
 			path = PseudoCode;
@@ -139,7 +139,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CB777F7178CEEC1001FDAF4 /* expression.c in Sources */,
+				4C46A683179B246C00904A4B /* expression.c in Sources */,
 				4CB777F6178CEEA0001FDAF4 /* Stack.c in Sources */,
 				4CE3A947178CC52300C2E2B3 /* variableManager.c in Sources */,
 				4C0F99B9178B98CA00344A22 /* helperFunctions.c in Sources */,
