@@ -9,31 +9,28 @@
 #ifndef PseudoCode_constants_h
 #define PseudoCode_constants_h
 
-static const int NUM_OPERATORS = 4;
-static const char *OPERATORS[NUM_OPERATORS] = {"+", "-", "/", "*"};
+extern const int NUM_OPERATORS;
+extern const char *OPERATORS[];
 
-static const int NUM_LOGICAL_OPERATORS = 2;
-static const char *LOGICAL_OPERATORS[NUM_LOGICAL_OPERATORS] = {"AND", "OR"};
+extern const int NUM_LOGICAL_OPERATORS;
+extern const char *LOGICAL_OPERATORS[];
 
-static const int NUM_COMPARISON_OPERATORS = 3;
-static const char *COMPARISON_OPERATORS[NUM_COMPARISON_OPERATORS] = {">", "<", "=="};
+extern const int NUM_COMPARISON_OPERATORS;
+extern const char *COMPARISON_OPERATORS[];
 
-static const int MAX_VARS = 100;
-static const int DEFAULT_VAL = 0;
+extern const int NUM_WHITESPACE;
+extern const char *WHITESPACE[];
 
-static const int NUM_WHITESPACE = 2;
-static const char *WHITESPACE[NUM_WHITESPACE] = {" ", "\n"};
+extern const char *FILE_PATH;
+extern const int LINE_MAX;
 
-static const char *FILE_PATH = "program.txt";
-static const int LINE_MAX = 100;
+extern const int NUM_SINGLE_OPERAND_INSTRUCTIONS;
+extern const char *SINGLE_OPERAND_INSTRUCTIONS[];
 
-static const int NUM_SINGLE_OPERAND_INSTRUCTIONS = 2;
-static const char *SINGLE_OPERAND_INSTRUCTIONS[NUM_SINGLE_OPERAND_INSTRUCTIONS] = {"VAR", "PRINT"};
+extern const int NUM_ASSIGNMENT_INSTRUCTIONS;
+extern const char *ASSIGNMENT_INSTRUCTIONS[];
 
-static const int NUM_ASSIGNMENT_INSTRUCTIONS = 1;
-static const char *ASSIGNMENT_INSTRUCTIONS[NUM_ASSIGNMENT_INSTRUCTIONS] = {"SET"};
-
-static const int NUM_CONTROL_FLOW = 1;
-static const char *CONTROL_FLOW[NUM_CONTROL_FLOW] = {"IF"};
+extern const int NUM_CONTROL_FLOW;
+extern const char *CONTROL_FLOW[];
 
 #endif
