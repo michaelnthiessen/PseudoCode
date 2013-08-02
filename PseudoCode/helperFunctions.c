@@ -51,7 +51,8 @@ int isCharInArray(char c, char** array, int numElements)
 void trimwhitespace(char *str)
 {
     char *newStr = malloc(sizeof(char) * strlen(str));
-    int index = 0, begin = 0;
+    int begin = 0;
+    int end = (int)strlen(str) - 1;
     
     // Leading whitespace
     while (isCharInArray(str[begin], (char **)WHITESPACE, NUM_WHITESPACE))
@@ -59,16 +60,22 @@ void trimwhitespace(char *str)
         begin++;
     }
     
-    // Load into the new string while the next character is not whitespace
-    while (!isCharInArray(str[begin], (char **)WHITESPACE, NUM_WHITESPACE))
+    // Trailing whitespace
+    while (isCharInArray(str[end], (char **)WHITESPACE, NUM_WHITESPACE))
     {
-        newStr[index++] = str[begin++];
+        end--;
     }
     
-    newStr[index] = '\0';
+    for (int i = 0; i <= (end - begin); i++)
+    {
+        newStr[i] = str[i + begin];
+    }
     
     // Copy the new str into the old location
     memcpy(str, newStr, strlen(newStr));
+    
+    // Truncate it at the correct position
+    str[(end - begin) + 1] = '\0';
     
     return;
 }

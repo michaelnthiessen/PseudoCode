@@ -24,7 +24,7 @@ void parseAssignmentInstruction(char *token);
 void parseControlFlow(char *token, FILE *file);
 
 int main(int argc, const char * argv[])
-{
+{    
     // Open up a program file 
     interpretProgramFile((char *)FILE_PATH);
 

@@ -17,10 +17,30 @@
 #include "variableManager.h"
 #include "constants.h"
 
-char *convertToPostfix_Int(char *infix);
+// ----------------------------- Structs / Enums ---------------------------
+
+typedef enum {
+    NUM_OPERAND,
+    LOG_OPERAND,
+    NUM_OPERATOR,
+    LOG_OPERATOR,
+    COMP_OPERATOR
+} TokenType;
+
+typedef struct {
+    TokenType type;
+    void *value;
+} Token;
+
+// ----------------------------- Functions ----------------------------
+
+int convertToPostfix_Int(char *infix);
 void pushChar(char c, Stack *stack);
-int evaluatePostfix_Int(char *postfix);
+int evaluatePostfix_Int(Token *postfix, int numTokens);
 int operatorDoesTakePrecedence(char operator1, char operator2);
+
+int addNumericalOperandToTokenList(char *operand, Token *tokens, int numTokens);
+void addNumericalOperatorToTokenList(char *operand, Token *tokens, int numTokens);
 
 /*
  Recursively evaluates the expression, 
@@ -30,9 +50,7 @@ int evaluateIntExpression (char *expression)
 {
     assert(expression != NULL);
     
-    char *postfix = convertToPostfix_Int(expression);
-    
-    return evaluatePostfix_Int(postfix);
+    return convertToPostfix_Int(expression);
 }
 
 int evaluateComparison(char *expression)
@@ -114,20 +132,83 @@ int evaluateBoolExpression(char *expression)
     
     return 0;
 }
+
+/*
+ Takes in the pointer to a 
+ */
+int addNumericalOperandToTokenList(char *operand, Token *tokens, int numTokens)
+{
+    assert(operand != NULL);
+    assert(tokens != NULL);
+    assert(numTokens > -1);
+    
+    char tempDigits[50];
+    int tempLength = 0;
+    int i = 0;
+    
+    Token *newToken = malloc(sizeof(Token));
+    int *value = malloc(sizeof(int));
+    
+    // Make sure the memory was allocated
+    if (newToken == NULL || value == NULL) abort();
+    
+    // Store the digits into a temporary string
+    tempDigits[tempLength++] = operand[i];
+    
+    while (isdigit(operand[i + 1]))
+    {
+        tempDigits[tempLength++] = operand[i++ + 1];
+    }
+    
+    tempDigits[tempLength] = '\0';
+    
+    // Convert the string into an integer and store it in a Token
+    *value = (int)strtol(tempDigits, NULL, 10);
+    
+    newToken->type = NUM_OPERAND;
+    newToken->value = value;
+    
+    tokens[numTokens] = *newToken;
+    
+    return i;
+}
+
+void addNumericalOperatorToTokenList(char *operation, Token *tokens, int numTokens)
+{
+    assert(operation != NULL);
+    assert(tokens != NULL);
+    assert(numTokens > -1);
+    
+    Token *newToken = malloc(sizeof(Token));
+    char *tempOperation = malloc(sizeof(char));
+    
+    // Make sure the memory was allocated
+    if (newToken == NULL || tempOperation == NULL) abort();
+    
+    *tempOperation = *operation;
+    
+    newToken->type = NUM_OPERATOR;
+    newToken->value = tempOperation;
+    
+    tokens[numTokens] = *newToken;
+    
+    return;
+}
+
 /*
  Converts an infix expression to postfix
  */
-char *convertToPostfix_Int(char *infix)
+int convertToPostfix_Int(char *infix)
 {
     assert(infix != NULL);
     
     int lengthInfix = (int)strlen(infix);
-    int lengthPostfix = 0;
     Stack *stack = stackCreateNewStack();
     
     // Converting to postfix rearranges and removes parentheses,
     // so it will always be of equal or shorter length
-    char *postfix = malloc(sizeof(char) * lengthInfix);
+    Token *tokens = malloc(sizeof(Token) * lengthInfix);
+    int numTokens = 0;
     
     for (int i = 0; i < lengthInfix; i++)
     {
@@ -136,18 +217,7 @@ char *convertToPostfix_Int(char *infix)
         // Check if it's an operand
         if (isdigit(c))
         {
-            postfix[lengthPostfix] = infix[i];
-            lengthPostfix++;
-            
-            while (isdigit(infix[i + 1]))
-            {
-                postfix[lengthPostfix] = infix[i + 1];
-                lengthPostfix++;
-                i++;
-            }
-            
-            postfix[lengthPostfix] = ' ';
-            lengthPostfix++;
+            i += addNumericalOperandToTokenList(&infix[i], tokens, numTokens++);
         }
         else if (c == '(')
         {
@@ -158,11 +228,7 @@ char *convertToPostfix_Int(char *infix)
             // While the stack is not empty, and the top object is not a left parenthesis
             while (!stackIsEmpty(stack) && *(char *)stackReturnTopObject(stack) != '(')
             {
-                postfix[lengthPostfix] = *(char *)stackPopObject(stack);
-                lengthPostfix++;
-                
-                postfix[lengthPostfix] = ' ';
-                lengthPostfix++;                
+                addNumericalOperatorToTokenList((char *)stackPopObject(stack), tokens, numTokens++);
             }
             
             stackPopObject(stack);
@@ -177,11 +243,7 @@ char *convertToPostfix_Int(char *infix)
             {
                 while (!stackIsEmpty(stack) && *(char *)stackReturnTopObject(stack) != '(' && operatorDoesTakePrecedence(*(char *)stackReturnTopObject(stack), c))
                 {                    
-                    postfix[lengthPostfix] = *(char *)stackPopObject(stack);
-                    lengthPostfix++;
-                    
-                    postfix[lengthPostfix] = ' ';
-                    lengthPostfix++;
+                    addNumericalOperatorToTokenList((char *)stackPopObject(stack), tokens, numTokens++);
                 }
                 pushChar(c, stack);
             }
@@ -192,6 +254,9 @@ char *convertToPostfix_Int(char *infix)
             char *varName = malloc(sizeof(char) * 50);
             int varLength = 0;
             int *var;
+            Token *newToken = malloc(sizeof(Token));
+            
+            if (newToken == NULL) abort();
             
             varName[varLength] = infix[i];
             varLength++;
@@ -205,7 +270,7 @@ char *convertToPostfix_Int(char *infix)
             
             varName[varLength] = '\0';
             
-            // Search for the variable
+            // Get the value of the variable
             var = variableReturnVariable(varName);
             
             if (var == NULL)
@@ -214,39 +279,22 @@ char *convertToPostfix_Int(char *infix)
             }
             else
             {
-                char *result;
-                if (*var != 0)
-                {
-                    result = malloc((ceil(log10(*var))+1)*sizeof(char));
-                    sprintf(result, "%d", *var);
-                }
-                else
-                {
-                    result = malloc(sizeof(char) * 2);
-                    result = "0";
-                }
+                // We don't need to copy the value of the pointer because the variable cannot change it's
+                // value until after we have completely evaluated the expression anyways
+                newToken->type = NUM_OPERAND;
+                newToken->value = var;
                 
-                postfix = strcat(postfix, result);
-                lengthPostfix += strlen(result);
-                
-                postfix[lengthPostfix] = ' ';
-                lengthPostfix++;
+                tokens[numTokens++] = *newToken;
             }
         }
     }
     
     while (!stackIsEmpty(stack))
     {
-        postfix[lengthPostfix] = *(char *)stackPopObject(stack);
-        lengthPostfix++;
-        
-        postfix[lengthPostfix] = ' ';
-        lengthPostfix++;
+        addNumericalOperatorToTokenList((char *)stackPopObject(stack), tokens, numTokens++);
     }
     
-    postfix[lengthPostfix] = '\0';
-    
-    return postfix;
+    return evaluatePostfix_Int(tokens, numTokens);
 }
 
 /*
@@ -286,27 +334,27 @@ void pushChar(char c, Stack *stack)
  an operator is encountered, pop off the correct
  number of operands needed
  */
-int evaluatePostfix_Int(char *postfix)
+int evaluatePostfix_Int(Token *postfix, int numTokens)
 {
     assert(postfix != NULL);
     
     int val = 0, operand1 = 0, operand2 = 0;
-    char *token = strtok(postfix, " ");
+    Token *token = &postfix[0];
     Stack *stack = stackCreateNewStack();
     
-    do
+    for (int i = 0; i < numTokens; i++)
     {
-        if (isdigit(token[0]))
+        if (token->type == NUM_OPERAND)
         {
             stackPushObject(stack, token);
         }
-        else if (token[0] != ' ')
+        else
         {
             // Get our operands as integers from the stack (with some casting/converting)
-            operand2 = (int)strtol((char *)stackPopObject(stack), NULL, 10);
-            operand1 = (int)strtol((char *)stackPopObject(stack), NULL, 10);
+            operand2 = *(int *)((Token *)stackPopObject(stack))->value;
+            operand1 = *(int *)((Token *)stackPopObject(stack))->value;
             
-            switch (token[0]) {
+            switch (*(char *)(token->value)) {
                 case '+':
                     val = operand1 + operand2;
                     break;
@@ -327,25 +375,21 @@ int evaluatePostfix_Int(char *postfix)
                     break;
             }
             
-            // Convert the int to a string and push onto the stack
-            // The formula only works when val != 0
-            char *result;
-            if (val != 0)
+            // Push the result onto the stack
+            Token *result = malloc(sizeof(Token));
+            if (result != NULL)
             {
-                result = malloc((ceil(log10(val))+1)*sizeof(char));
-                sprintf(result, "%d", val);
-            }
-            else
-            {
-                result = malloc(sizeof(char) * 2);
-                result = "0";
+                result->type = NUM_OPERAND;
+                int *tempVal = malloc(sizeof(int));
+                *tempVal = val;
+                result->value = tempVal;
             }
 
             stackPushObject(stack, result);
         }
-    } while ((token = strtok(NULL, " ")));
+    }
     
-    return (int)strtol((char *)stackPopObject(stack), NULL, 10);
+    return *(int *)((Token *)stackPopObject(stack))->value;
 }
 
 
