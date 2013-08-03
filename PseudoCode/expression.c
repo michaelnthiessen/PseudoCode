@@ -387,6 +387,9 @@ int evaluatePostfix_Int(Token *postfix, int numTokens)
 
             stackPushObject(stack, result);
         }
+        
+        // Get the next token
+        token = &postfix[i + 1];
     }
     
     return *(int *)((Token *)stackPopObject(stack))->value;
