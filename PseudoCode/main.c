@@ -82,6 +82,7 @@ void parseControlFlow(char *token, FILE *file)
     assert(file != NULL);
     
     // Setup memory
+    int ifBlockCount;
     char *ch = malloc(sizeof(char) * strlen(token));
     char *line = malloc(sizeof(char) * LINE_MAX);
     strcpy(ch, token);
@@ -97,10 +98,22 @@ void parseControlFlow(char *token, FILE *file)
             fgets(line, LINE_MAX, file);
             trimwhitespace(line);
             
-            while (strcmp(line, "END\n") != 0 && strcmp(line, "END") != 0)
+            ifBlockCount = 1;
+            
+            while (ifBlockCount != 0)
             {
                 fgets(line, LINE_MAX, file);
                 trimwhitespace(line);
+                
+                // Check if we hit an IF line
+                if (line[0] == 'I' && line[1] == 'F')
+                {
+                    ifBlockCount++;
+                }
+                else if (strcmp(line, "END") == 0)
+                {
+                    ifBlockCount--;
+                }
             }
         }
     }
