@@ -9,8 +9,8 @@
 #ifndef PseudoCode_constants_h
 #define PseudoCode_constants_h
 
-extern const int NUM_OPERATORS;
-extern const char *OPERATORS[];
+extern const int NUM_NUMERICAL_OPERATORS;
+extern const char *NUMERICAL_OPERATORS[];
 
 extern const int NUM_LOGICAL_OPERATORS;
 extern const char *LOGICAL_OPERATORS[];
@@ -23,6 +23,7 @@ extern const char *WHITESPACE[];
 
 extern const char *FILE_PATH;
 extern const int LINE_MAX;
+extern const int MAX_LENGTH_OPERATOR;
 
 extern const int NUM_SINGLE_OPERAND_INSTRUCTIONS;
 extern const char *SINGLE_OPERAND_INSTRUCTIONS[];

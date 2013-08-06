@@ -22,14 +22,37 @@ void interpretProgramFile(char *programFilePath);
 void parseSingleOperandInstruction(char *token);
 void parseAssignmentInstruction(char *token);
 void parseControlFlow(char *token, FILE *file);
+void setup();
 
 int main(int argc, const char * argv[])
-{    
+{
+    // Setup
+    setup();
+    
     // Open up a program file 
     interpretProgramFile((char *)FILE_PATH);
 
     printf("\nEnd of program.\n");
     return 0;
+}
+
+void setup()
+{
+    // Setup our TRUE and FALSE variables
+    char *trueName = malloc(sizeof(char) * 5);
+    trueName = "true";
+    
+    char *falseName = malloc(sizeof(char) * 6);
+    falseName = "false";
+    
+    variableDefineNewVariable(trueName);
+    variableDefineNewVariable(falseName);
+    
+    int *var = variableReturnVariable(trueName);
+    *var = 1;
+    
+    var = variableReturnVariable(falseName);
+    *var = 0;    
 }
 
 void interpretProgramFile(char *programFilePath)
@@ -93,7 +116,9 @@ void parseControlFlow(char *token, FILE *file)
         // If the expression is false, we need to skip past
         // the end of the IF block
         token = strtok(NULL, "");
-        if (!evaluateComparison(token))
+        trimwhitespace(token);
+        
+        if (!evaluateIntExpression(token))
         {
             fgets(line, LINE_MAX, file);
             trimwhitespace(line);

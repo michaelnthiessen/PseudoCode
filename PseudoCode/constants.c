@@ -9,8 +9,8 @@
 #include <stdio.h>
 #include "constants.h"
 
-const int NUM_OPERATORS = 4;
-const char *OPERATORS[NUM_OPERATORS] = {"+", "-", "/", "*"};
+const int NUM_NUMERICAL_OPERATORS = 4;
+const char *NUMERICAL_OPERATORS[NUM_NUMERICAL_OPERATORS] = {"+", "-", "/", "*"};
 
 const int NUM_LOGICAL_OPERATORS = 2;
 const char *LOGICAL_OPERATORS[NUM_LOGICAL_OPERATORS] = {"AND", "OR"};
@@ -23,6 +23,7 @@ const char *WHITESPACE[NUM_WHITESPACE] = {" ", "\n"};
 
 const char *FILE_PATH = "program.txt";
 const int LINE_MAX = 100;
+const int MAX_LENGTH_OPERATOR = 3;
 
 const int NUM_SINGLE_OPERAND_INSTRUCTIONS = 2;
 const char *SINGLE_OPERAND_INSTRUCTIONS[NUM_SINGLE_OPERAND_INSTRUCTIONS] = {"VAR", "PRINT"};
